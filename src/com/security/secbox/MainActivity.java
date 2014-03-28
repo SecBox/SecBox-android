@@ -2,47 +2,34 @@ package com.security.secbox;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.TextView;
+import android.widget.Toast;
+import android.os.Vibrator;
 
-/**
- * 
- * @author Giovanny Andres Gongora Granada - SecBox
- *
- */
 public class MainActivity extends Activity {
 	
 	private boolean detectEnabled;
-	
-	private TextView textViewDetectState;
 	private Button buttonToggleDetect;
-	private Button buttonExit;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         
-        textViewDetectState = (TextView) findViewById(R.id.textViewDetectState);
-        
         buttonToggleDetect = (Button) findViewById(R.id.buttonDetectToggle);
         buttonToggleDetect.setOnClickListener(new OnClickListener() {
+        Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 			@Override
 			public void onClick(View v) {
 				setDetectEnabled(!detectEnabled);
-			}
-		});
-        
-        buttonExit = (Button) findViewById(R.id.buttonExit);
-        buttonExit.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				setDetectEnabled(false);
-				MainActivity.this.finish();
+				if(v==buttonToggleDetect){ 
+        			vibrator.vibrate(300);           
+        		}
 			}
 		});
     }
@@ -58,18 +45,14 @@ public class MainActivity extends Activity {
     	
         Intent intent = new Intent(this, CallDetectService.class);
     	if (enable) {
-    		 // start detect service 
             startService(intent);
-            
-            buttonToggleDetect.setText("Turn off");
-    		textViewDetectState.setText("Detecting");
+            buttonToggleDetect.setBackgroundResource(R.drawable.actived);
+            Toast.makeText(this, "Verification mode enabled", Toast.LENGTH_LONG).show();
     	}
     	else {
-    		// stop detect service
     		stopService(intent);
-    		
-    		buttonToggleDetect.setText("Turn on");
-    		textViewDetectState.setText("Not detecting");
+    		buttonToggleDetect.setBackgroundResource(R.drawable.activedno);
+    		Toast.makeText(this, "Verification mode disabled", Toast.LENGTH_LONG).show();
     	}
     }
 

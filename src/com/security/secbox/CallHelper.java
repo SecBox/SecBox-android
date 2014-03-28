@@ -27,12 +27,10 @@ public class CallHelper {
 	private String tester1 = "3187261504";
 	private String tester2 = "3108899429";
 	private String tester3 = "3182457875";
-	private String tester4 = "3108899429";
+	private String tester4 = "3214066065";
 	private String tester5 = "3133101011";
 	private String casa = "0382663073";
-	/**
-	 * Listener to detect incoming calls. 
-	 */
+
 	private class CallStateListener extends PhoneStateListener {
 		@Override
 		public void onCallStateChanged(int state, String incomingNumber) {
@@ -122,9 +120,6 @@ public class CallHelper {
 		}
 	}
 	
-	/**
-	 * Broadcast receiver to detect the outgoing calls.
-	 */
 	public class OutgoingReceiver extends BroadcastReceiver {
 	    public OutgoingReceiver() {
 	    }
